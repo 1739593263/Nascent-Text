@@ -1,0 +1,59 @@
+{
+  "name": "acm-template-pro-generator",
+  "description": "ACM 示例模板生成器",
+  "basePackage": "com.nascent",
+  "version": "1.0",
+  "author": "anKen",
+  "createTime": "2024-4-24",
+  "fileConfig": {
+    "inputRootPath": "E:/Projects/CodeGenerator/nt-demo-projects/acm-template",
+    "outputRootPath": "generated",
+    "sourceRootPath": "E:/Projects/CodeGenerator/nt-demo-projects/acm-template",
+    "type": "dir",
+    "files": [
+      {
+        "inputPath": ".gitignore",
+        "outputPath": ".gitignore",
+        "type": "file",
+        "generateType": "static"
+      },
+      {
+        "inputPath": "README.md",
+        "outputPath": "README.md",
+        "type": "file",
+        "generateType": "static"
+      },
+      {
+        "inputPath": "src/com/nascent/acm/MainTemplate.java.ftl",
+        "outputPath": "src/com/nascent/acm/MainTemplate.java",
+        "type": "file",
+        "generateType": "dynamic"
+      }
+    ]
+  },
+  "modelConfig": {
+    "models": [
+      {
+        "fieldName": "loop",
+        "type": "boolean",
+        "description": "Loop or not",
+        "defaultValue": false,
+        "abbr": "l"
+      },
+      {
+        "fieldName": "author",
+        "type": "String",
+        "description": "Author annotation",
+        "defaultValue": "aNDre",
+        "abbr": "a"
+      },
+      {
+        "fieldName": "outputText",
+        "type": "String",
+        "description": "output text",
+        "defaultValue": "Code result: ",
+        "abbr": "o"
+      }
+    ]
+  }
+}
