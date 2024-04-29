@@ -1,12 +1,12 @@
 {
   "name": "acm-template-pro-generator",
-  "description": "ACM 示例模板生成器",
+  "description": "ACM template demo generator",
   "basePackage": "com.nascent",
   "version": "1.0",
   "author": "anKen",
   "createTime": "2024-4-24",
   "fileConfig": {
-    "inputRootPath": "E:/Projects/CodeGenerator/nt-demo-projects/acm-template",
+    "inputRootPath": ".source/acm-template",
     "outputRootPath": "generated",
     "sourceRootPath": "E:/Projects/CodeGenerator/nt-demo-projects/acm-template",
     "type": "dir",

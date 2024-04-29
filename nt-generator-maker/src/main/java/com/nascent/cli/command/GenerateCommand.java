@@ -22,7 +22,7 @@ public class GenerateCommand implements Callable {
 
     @Option(names = {"-l", "--loop"}, arity = "0..1", interactive = true, description = "whether or not add loop")
     private boolean loop;
-
+    
     @Override
     public Object call() throws Exception {
         DataModel mainTemplateConfig = new DataModel();

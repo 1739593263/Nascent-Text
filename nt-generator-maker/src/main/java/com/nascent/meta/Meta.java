@@ -25,11 +25,11 @@ public class Meta {
         private String outputRootPath;
         private String sourceRootPath;
         private String type;
-        private List<Files> files;
+        private List<FilesInfo> files;
 
         @NoArgsConstructor
         @Data
-        public static class Files {
+        public static class FilesInfo {
             private String inputPath;
             private String outputPath;
             private String type;

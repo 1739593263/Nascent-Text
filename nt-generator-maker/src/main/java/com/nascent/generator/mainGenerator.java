@@ -10,6 +10,7 @@ import com.nascent.meta.MetaManager;
 import freemarker.template.utility.StringUtil;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class mainGenerator {
 
@@ -19,10 +20,15 @@ public class mainGenerator {
         System.out.println(meta);
         // output path
         String rootPath = System.getProperty("user.dir");
-        String outputPath = rootPath+ File.separator+"generated";
+        String outputPath = rootPath+ File.separator+"generated"+ File.separator+"acm-template-pro-generator";
         if (!FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
+
+        // copy the original file
+        String sourceRootPath = meta.getFileConfig().getSourceRootPath();
+        String sourceCopyDesPath = outputPath + File.separator + ".source";
+        FileUtil.copy(sourceRootPath, sourceCopyDesPath, false);
 
         // read the resource dir
         ClassPathResource classPathResource = new ClassPathResource("");
@@ -91,6 +97,11 @@ public class mainGenerator {
         outputFilePath = outputPath + File.separator + "pom.xml";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
+        // README.md
+        inputFilePath = inputResourcePath + File.separator + "template/README.md.ftl";
+        outputFilePath = outputPath + File.separator + "README.md";
+        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
         // build jars
         jarGenerator.doGenerator(outputPath);
 
@@ -99,6 +110,19 @@ public class mainGenerator {
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target" + File.separator + jarName;
         scriptGenerator.doGenerator(shellOutputPath, jarPath);
+
+        // light version
+        String distOutputPath = outputPath + "-dist";
+        // - copy jar packages
+        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        FileUtil.mkdir(targetAbsolutePath);
+        String jarAbsolutePath = outputPath+File.separator+jarPath;
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+        // -copy script
+        FileUtil.copy(shellOutputPath, distOutputPath, true);
+        FileUtil.copy(shellOutputPath+".bat", distOutputPath, true);
+        // -copy source Template files
+        FileUtil.copy(sourceCopyDesPath, distOutputPath, true);
     }
 
 }
