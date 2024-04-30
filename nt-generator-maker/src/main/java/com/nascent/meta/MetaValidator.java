@@ -14,37 +14,34 @@ import java.util.List;
 
 public class MetaValidator {
     public static void doValidAndFill(Meta meta) {
-        String name = meta.getName();
-        if (StrUtil.isBlank(name)) {
-            name = "acm-template-pro-generator";
-            meta.setName(name);
-        }
-        String description = meta.getDescription();
-        if (StrUtil.isBlank(description)) {
-            description = "ACM template demo generator";
-            meta.setName(description);
-        }
-        String basePackage = meta.getBasePackage();
-        if (StrUtil.isBlank(basePackage)) {
-            basePackage = "com.nascent";
-            meta.setName(basePackage);
-        }
-        String version = meta.getVersion();
-        if (StrUtil.isBlank(version)) {
-            version = "1.0.0";
-            meta.setName(version);
-        }
-        String author = meta.getAuthor();
-        if (StrUtil.isBlank(author)) {
-            author = "anKen";
-            meta.setName(author);
-        }
-        String createTime = meta.getCreateTime();
-        if (StrUtil.isBlank(createTime)) {
-            createTime = DateUtil.now();
-            meta.setName(createTime);
-        }
+        CoreInfoValidation(meta);
 
+        FileConfigValidation(meta);
+
+        ModelConfigValidation(meta);
+    }
+
+    private static void ModelConfigValidation(Meta meta) {
+        Meta.ModelConfig modelConfig = meta.getModelConfig();
+        if (modelConfig!=null) {
+            List<Meta.ModelConfig.Models> models = modelConfig.getModels();
+
+            if (models!=null) {
+                for (Meta.ModelConfig.Models model:models) {
+                    String fieldName = model.getFieldName();
+                    if (StrUtil.isBlank(fieldName)) {
+                        throw new MetaException("no fieldName detected");
+                    }
+                    String type = model.getType();
+                    if (StrUtil.isBlank(type)) {
+                        model.setType("String");
+                    }
+                }
+            }
+        }
+    }
+
+    private static void FileConfigValidation(Meta meta) {
         Meta.FileConfig fileConfig = meta.getFileConfig();
         if (fileConfig!=null) {
             String sourceRootPath = fileConfig.getSourceRootPath();
@@ -99,23 +96,25 @@ public class MetaValidator {
                 }
             }
         }
+    }
 
-        Meta.ModelConfig modelConfig = meta.getModelConfig();
-        if (modelConfig!=null) {
-            List<Meta.ModelConfig.Models> models = modelConfig.getModels();
+    private static void CoreInfoValidation(Meta meta) {
+        String name = StrUtil.blankToDefault(meta.getName(), "acm-template-pro-generator");
+        meta.setName(name);
 
-            if (models!=null) {
-                for (Meta.ModelConfig.Models model:models) {
-                    String fieldName = model.getFieldName();
-                    if (StrUtil.isBlank(fieldName)) {
-                        throw new MetaException("no fieldName detected");
-                    }
-                    String type = model.getType();
-                    if (StrUtil.isBlank(type)) {
-                        model.setType("String");
-                    }
-                }
-            }
-        }
+        String description = StrUtil.blankToDefault(meta.getDescription(), "ACM template demo generator");
+        meta.setName(description);
+
+        String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.nascent");
+        meta.setName(basePackage);
+
+        String version = StrUtil.blankToDefault(meta.getVersion(), "1.0");
+        meta.setName(version);
+
+        String author = StrUtil.blankToDefault(meta.getAuthor(), "anKen");
+        meta.setName(author);
+
+        String createTime = StrUtil.blankToDefault(meta.getCreateTime(), DateUtil.now());
+        meta.setName(createTime);
     }
 }
