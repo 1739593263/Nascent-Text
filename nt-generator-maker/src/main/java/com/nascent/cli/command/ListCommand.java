@@ -8,6 +8,7 @@ import java.util.List;
 
 @Command(name = "list", description = "check the file list", mixinStandardHelpOptions = true)
 public class ListCommand implements Runnable {
+
     @Override
     public void run() {
         String projectPath = System.getProperty("user.dir");

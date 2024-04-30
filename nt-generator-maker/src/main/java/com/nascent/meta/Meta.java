@@ -8,7 +8,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class Meta {
-
     private String name;
     private String description;
     private String basePackage;
@@ -24,7 +23,7 @@ public class Meta {
         private String inputRootPath;
         private String outputRootPath;
         private String sourceRootPath;
-        private String type;
+        private String fileConfigType;
         private List<FilesInfo> files;
 
         @NoArgsConstructor
