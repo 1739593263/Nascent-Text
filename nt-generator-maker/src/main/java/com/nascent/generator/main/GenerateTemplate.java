@@ -1,20 +1,19 @@
-package com.nascent.generator;
-
+package com.nascent.generator.main;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
-import com.nascent.generator.file.DynamicFileGenerator;
+import com.nascent.generator.JarGenerator;
+import com.nascent.generator.ScriptGenerator;
 import com.nascent.meta.Meta;
 import com.nascent.meta.MetaManager;
-import freemarker.template.utility.StringUtil;
+import com.nascent.generator.file.DynamicFileGenerator;
 
 import java.io.File;
-import java.nio.file.Path;
+import java.io.IOException;
 
-public class mainGenerator {
-
-    public static void main(String[] args) throws Exception {
+public abstract class GenerateTemplate {
+    public void doGenerate() throws Exception {
         Meta meta = new Meta();
         meta = MetaManager.getMeta();
         System.out.println(meta);
@@ -26,11 +25,52 @@ public class mainGenerator {
         }
 
         // copy the original file
-        String sourceRootPath = meta.getFileConfig().getSourceRootPath();
-        String sourceCopyDesPath = outputPath + File.separator + ".source";
-        FileUtil.copy(sourceRootPath, sourceCopyDesPath, false);
+        String sourceCopyDesPath = copySource(meta, outputPath);
 
-        // read the resource dir
+        // generate code
+        generateCode(meta, outputPath);
+
+        // build jars
+        String jarPath = buildJar(meta, outputPath);
+
+        // script
+        String shellOutputPath = buildScript(jarPath, outputPath);
+
+
+        // light version
+        buildLight(outputPath, sourceCopyDesPath, jarPath, shellOutputPath);
+    }
+
+    protected void buildLight(String outputPath, String sourceCopyDesPath, String jarPath, String shellOutputPath) {
+        String distOutputPath = outputPath + "-dist";
+        // - copy jar packages
+        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        FileUtil.mkdir(targetAbsolutePath);
+        String jarAbsolutePath = outputPath +File.separator+jarPath;
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+        // -copy script
+        FileUtil.copy(shellOutputPath, distOutputPath, true);
+        FileUtil.copy(shellOutputPath+".bat", distOutputPath, true);
+        // -copy source Template files
+        FileUtil.copy(sourceCopyDesPath, distOutputPath, true);
+    }
+
+    protected String buildScript(String jarPath, String outputPath) {
+        String shellOutputPath =  outputPath+"/generator";
+        ScriptGenerator.doGenerator(shellOutputPath, jarPath);
+        return shellOutputPath;
+    }
+
+    protected String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
+        JarGenerator.doGenerator(outputPath);
+        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
+        String jarPath = "target" + File.separator + jarName;
+        return jarPath;
+    }
+
+    protected void generateCode(Meta meta, String outputPath) throws Exception {
+        // read the resou
+        // rce dir
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();
 
@@ -101,28 +141,12 @@ public class mainGenerator {
         inputFilePath = inputResourcePath + File.separator + "template/README.md.ftl";
         outputFilePath = outputPath + File.separator + "README.md";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
-
-        // build jars
-        jarGenerator.doGenerator(outputPath);
-
-        // script
-        String shellOutputPath = outputPath+"/generator";
-        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
-        String jarPath = "target" + File.separator + jarName;
-        scriptGenerator.doGenerator(shellOutputPath, jarPath);
-
-        // light version
-        String distOutputPath = outputPath + "-dist";
-        // - copy jar packages
-        String targetAbsolutePath = distOutputPath + File.separator + "target";
-        FileUtil.mkdir(targetAbsolutePath);
-        String jarAbsolutePath = outputPath+File.separator+jarPath;
-        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
-        // -copy script
-        FileUtil.copy(shellOutputPath, distOutputPath, true);
-        FileUtil.copy(shellOutputPath+".bat", distOutputPath, true);
-        // -copy source Template files
-        FileUtil.copy(sourceCopyDesPath, distOutputPath, true);
     }
 
+    protected String copySource(Meta meta, String outputPath) {
+        String sourceRootPath = meta.getFileConfig().getSourceRootPath();
+        String sourceCopyDesPath = outputPath + File.separator + ".source";
+        FileUtil.copy(sourceRootPath, sourceCopyDesPath, false);
+        return sourceCopyDesPath;
+    }
 }

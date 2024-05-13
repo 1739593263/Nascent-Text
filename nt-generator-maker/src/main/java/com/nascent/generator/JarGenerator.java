@@ -2,7 +2,7 @@ package com.nascent.generator;
 
 import java.io.*;
 
-public class jarGenerator {
+public class JarGenerator {
     public static void doGenerator(String dir) throws IOException, InterruptedException {
         String winMvnCommand = "mvn.cmd clean package -DskipTests=true;";
         String otherMvnCommand = "mvn clean package -DskipTests=true;";

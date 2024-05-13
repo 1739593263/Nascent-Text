@@ -5,6 +5,9 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.nascent.meta.enums.FileGenerateTypeEnums;
+import com.nascent.meta.enums.FileTypeEnums;
+import com.nascent.meta.enums.ModelTypeEnums;
 import freemarker.template.utility.CollectionUtils;
 import freemarker.template.utility.StringUtil;
 
@@ -34,7 +37,7 @@ public class MetaValidator {
                     }
                     String type = model.getType();
                     if (StrUtil.isBlank(type)) {
-                        model.setType("String");
+                        model.setType(ModelTypeEnums.STRING.getValue());
                     }
                 }
             }
@@ -60,7 +63,7 @@ public class MetaValidator {
                 fileConfig.setOutputRootPath(defaultOutputRootPath);
             }
             String fileConfigType = fileConfig.getFileConfigType();
-            String defaultType = "dir";
+            String defaultType = FileTypeEnums.DIR.getValue();
             if (StrUtil.isBlank(fileConfigType)) {
                 fileConfig.setFileConfigType(defaultType);
             }
@@ -80,17 +83,17 @@ public class MetaValidator {
                     String type = file.getType();
                     if (StrUtil.isBlank(type)) {
                         if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))){
-                            file.setType("dir");
+                            file.setType(FileTypeEnums.DIR.getValue());
                         } else {
-                            file.setType("file");
+                            file.setType(FileTypeEnums.FILE.getValue());
                         }
                     }
                     String generateType = file.getGenerateType();
                     if (StrUtil.isBlank(generateType)) {
                         if (inputPath.endsWith(".ftl")) {
-                            file.setGenerateType("dynamic");
+                            file.setGenerateType(FileGenerateTypeEnums.DYNAMIC.getValue());
                         } else {
-                            file.setGenerateType("statistic");
+                            file.setGenerateType(FileGenerateTypeEnums.STATIC.getValue());
                         }
                     }
                 }
@@ -103,18 +106,18 @@ public class MetaValidator {
         meta.setName(name);
 
         String description = StrUtil.blankToDefault(meta.getDescription(), "ACM template demo generator");
-        meta.setName(description);
+        meta.setDescription(description);
 
         String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.nascent");
-        meta.setName(basePackage);
+        meta.setBasePackage(basePackage);
 
         String version = StrUtil.blankToDefault(meta.getVersion(), "1.0");
-        meta.setName(version);
+        meta.setVersion(version);
 
         String author = StrUtil.blankToDefault(meta.getAuthor(), "anKen");
-        meta.setName(author);
+        meta.setAuthor(author);
 
         String createTime = StrUtil.blankToDefault(meta.getCreateTime(), DateUtil.now());
-        meta.setName(createTime);
+        meta.setCreateTime(createTime);
     }
 }

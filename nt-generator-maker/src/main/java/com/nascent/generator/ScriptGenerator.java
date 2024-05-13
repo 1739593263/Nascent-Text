@@ -10,7 +10,7 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 
-public class scriptGenerator {
+public class ScriptGenerator {
     public static void doGenerator(String outputPath, String jarPath) {
         // linux
         StringBuilder sb = new StringBuilder();
