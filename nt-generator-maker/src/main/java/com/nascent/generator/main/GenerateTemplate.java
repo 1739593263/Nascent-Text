@@ -36,7 +36,6 @@ public abstract class GenerateTemplate {
         // script
         String shellOutputPath = buildScript(jarPath, outputPath);
 
-
         // light version
         buildLight(outputPath, sourceCopyDesPath, jarPath, shellOutputPath);
     }

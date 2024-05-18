@@ -17,7 +17,7 @@ public class ConfigCommand implements Runnable {
 
         for (Field field:fields) {
             System.out.println("Field Name: "+field.getName());
-            System.out.println("Field Type"+field.getType());
+            System.out.println("Field Type: "+field.getType());
         }
     }
 }

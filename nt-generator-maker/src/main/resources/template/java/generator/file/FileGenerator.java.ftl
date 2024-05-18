@@ -9,12 +9,12 @@ public class FileGenerator {
     public static void doGenerate(Object dataModel) throws Exception {
         String rootPath = System.getProperty("user.dir");
         String parentPath = String.valueOf(Paths.get(rootPath).getParent().getParent());
-        String filePath = parentPath + File.separator + "nt-demo-projects"+ File.separator+"acm-template";
+        String filePath = rootPath + File.separator + ".source"+ File.separator+"acm-template";
 
         String inputPath = filePath + "/src/com/yupi/acm/MainTemplate.java.ftl";
         String outputPath = System.getProperty("user.dir")+"/MainTemplate.java";
 
-        System.out.println("Copying" + inputPath+" to "+outputPath);
+        System.out.println("Copying " + inputPath+" to "+outputPath);
         // dynamic
         DynamicFileGenerator.doGenerate(inputPath, outputPath, dataModel);
         // static

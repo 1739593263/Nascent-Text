@@ -26,6 +26,7 @@ public class JarGenerator {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        doGenerator("E:\\Projects\\CodeGenerator\\nt-generator-basic");
+//        doGenerator("E:\\Projects\\CodeGenerator\\nt-generator-basic");
+        doGenerator("E:\\Projects\\CodeGenerator\\nt-generator-maker\\generated\\acm-template-pro-generator");
     }
 }

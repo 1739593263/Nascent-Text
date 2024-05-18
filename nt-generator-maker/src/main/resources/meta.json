@@ -15,7 +15,8 @@
         "inputPath": ".gitignore",
         "outputPath": ".gitignore",
         "type": "file",
-        "generateType": "static"
+        "generateType": "static",
+        "condition": "gitNeeded"
       },
       {
         "inputPath": "README.md",
@@ -33,6 +34,13 @@
   },
   "modelConfig": {
     "models": [
+      {
+        "fieldName": "gitNeeded",
+        "type": "boolean",
+        "description": "if generating .gitignore file",
+        "defaultValue": true,
+        "abbr": "gn"
+      },
       {
         "fieldName": "loop",
         "type": "boolean",
