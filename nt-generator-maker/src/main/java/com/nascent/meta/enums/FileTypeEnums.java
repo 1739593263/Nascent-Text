@@ -5,8 +5,9 @@ package com.nascent.meta.enums;
  */
 public enum FileTypeEnums {
 
-    DIR("Dirctory", "dir"),
-    FILE("File", "file");
+    DIR("Directory", "dir"),
+    FILE("File", "file"),
+    GROUP("Group", "group");
 
     private final String text;
 

@@ -28,9 +28,11 @@ public class MetaValidator {
         Meta.ModelConfig modelConfig = meta.getModelConfig();
         if (modelConfig!=null) {
             List<Meta.ModelConfig.Models> models = modelConfig.getModels();
-
             if (models!=null) {
                 for (Meta.ModelConfig.Models model:models) {
+                    // if GroupKey is not Empty, it is a model with group type.
+                    if (StrUtil.isNotEmpty(model.getGroupKey())) continue;
+
                     String fieldName = model.getFieldName();
                     if (StrUtil.isBlank(fieldName)) {
                         throw new MetaException("no fieldName detected");
@@ -71,6 +73,10 @@ public class MetaValidator {
             List<Meta.FileConfig.FilesInfo> files = fileConfig.getFiles();
             if (CollectionUtil.isNotEmpty(files)) {
                 for (Meta.FileConfig.FilesInfo file: files) {
+                    // if file type is group, it has multiple files info and unnecessary to do analyze further here.
+                    String type = file.getType();
+                    if (FileTypeEnums.GROUP.getValue().equals(type)) continue;
+
                     String inputPath = file.getInputPath();
                     if (StrUtil.isBlank(inputPath)) {
                         throw new MetaException("no InputPath detected");
@@ -80,7 +86,7 @@ public class MetaValidator {
                         // default as input path;
                         file.setOutputPath(inputPath);
                     }
-                    String type = file.getType();
+
                     if (StrUtil.isBlank(type)) {
                         if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))){
                             file.setType(FileTypeEnums.DIR.getValue());

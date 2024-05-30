@@ -12,17 +12,24 @@
     "type": "dir",
     "files": [
       {
-        "inputPath": ".gitignore",
-        "outputPath": ".gitignore",
-        "type": "file",
-        "generateType": "static",
-        "condition": "gitNeeded"
-      },
-      {
-        "inputPath": "README.md",
-        "outputPath": "README.md",
-        "type": "file",
-        "generateType": "static"
+        "groupKey": "git",
+        "groupName": "OpenSource",
+        "type": "group",
+        "condition": "gitNeeded",
+        "files": [
+          {
+            "inputPath": ".gitignore",
+            "outputPath": ".gitignore",
+            "type": "file",
+            "generateType": "static"
+          },
+          {
+            "inputPath": "README.md",
+            "outputPath": "README.md",
+            "type": "file",
+            "generateType": "static"
+          }
+        ]
       },
       {
         "inputPath": "src/com/nascent/acm/MainTemplate.java.ftl",
@@ -49,18 +56,26 @@
         "abbr": "l"
       },
       {
-        "fieldName": "author",
-        "type": "String",
-        "description": "Author annotation",
-        "defaultValue": "aNDre",
-        "abbr": "a"
-      },
-      {
-        "fieldName": "outputText",
-        "type": "String",
-        "description": "output text",
-        "defaultValue": "Code result: ",
-        "abbr": "o"
+        "groupKey": "mainTemplate",
+        "groupName": "Main Template",
+        "type": "MainTemplate",
+        "description": "Leverage to generate the core template for clients",
+        "model": [
+          {
+            "fieldName": "author",
+            "type": "String",
+            "description": "Author annotation",
+            "defaultValue": "aNDre",
+            "abbr": "a"
+          },
+          {
+            "fieldName": "outputText",
+            "type": "String",
+            "description": "output text",
+            "defaultValue": "Code result: ",
+            "abbr": "o"
+          }
+        ]
       }
     ]
   }

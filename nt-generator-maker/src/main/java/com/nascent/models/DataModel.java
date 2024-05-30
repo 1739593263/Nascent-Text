@@ -5,19 +5,14 @@ import lombok.Data;
 @Data
 public class DataModel {
     /**
-     * Code Author
-     */
-    private String author = "aNDre";
-
-    /**
-     * Output Text
-     */
-    private String outputText = "Code holder result: ";
-
-    /**
      * is loop existed
      */
     private boolean loop = false;
+
+    /**
+     * main template
+     */
+    private MainTemplate mainTemplate;
 
 //    public String getAuthor() {
 //        return author;
