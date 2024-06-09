@@ -56,6 +56,10 @@ public class Meta {
             private String groupKey;
             private String groupName;
             private List<Models> models;
+            private String condition;
+
+            // parameters of internal class
+            private String allArgStr;
         }
     }
 }

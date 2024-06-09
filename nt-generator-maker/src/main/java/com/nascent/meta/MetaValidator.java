@@ -14,6 +14,7 @@ import freemarker.template.utility.StringUtil;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MetaValidator {
     public static void doValidAndFill(Meta meta) {
@@ -30,8 +31,17 @@ public class MetaValidator {
             List<Meta.ModelConfig.Models> models = modelConfig.getModels();
             if (models!=null) {
                 for (Meta.ModelConfig.Models model:models) {
-                    // if GroupKey is not Empty, it is a model with group type.
-                    if (StrUtil.isNotEmpty(model.getGroupKey())) continue;
+                    // group models
+                    String groupKey = model.getGroupKey();
+                    if (StrUtil.isNotEmpty(groupKey)) {
+                        List<Meta.ModelConfig.Models> subModelList = model.getModels();
+                        // allArgStr in command format: "--l, --output, -author".
+                        String allArgStr = subModelList.stream()
+                                .map(subModel -> String.format("\"--%s\"", subModel.getFieldName()))
+                                .collect(Collectors.joining(", "));
+                        model.setAllArgStr(allArgStr);
+                        continue;
+                    }
 
                     String fieldName = model.getFieldName();
                     if (StrUtil.isBlank(fieldName)) {

@@ -12,7 +12,20 @@ public class DataModel {
     /**
      * main template
      */
-    private MainTemplate mainTemplate;
+    private MainTemplate mainTemplate = new MainTemplate();
+
+    @Data
+    public static class MainTemplate {
+        /**
+         * Code Author
+         */
+        public String author = "aNDre";
+
+        /**
+         * Output Text
+         */
+        public String outputText = "Code holder result: ";
+    }
 
 //    public String getAuthor() {
 //        return author;

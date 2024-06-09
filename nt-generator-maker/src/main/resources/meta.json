@@ -32,7 +32,7 @@
         ]
       },
       {
-        "inputPath": "src/com/nascent/acm/MainTemplate.java.ftl",
+        "inputPath": "src/com/yupi/acm/MainTemplate.java.ftl",
         "outputPath": "src/com/nascent/acm/MainTemplate.java",
         "type": "file",
         "generateType": "dynamic"
@@ -60,7 +60,8 @@
         "groupName": "Main Template",
         "type": "MainTemplate",
         "description": "Leverage to generate the core template for clients",
-        "model": [
+        "condition": "loop",
+        "models": [
           {
             "fieldName": "author",
             "type": "String",

@@ -68,7 +68,7 @@ public abstract class GenerateTemplate {
     }
 
     protected void generateCode(Meta meta, String outputPath) throws Exception {
-        // read the resou
+        // read the resource
         // rce dir
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();

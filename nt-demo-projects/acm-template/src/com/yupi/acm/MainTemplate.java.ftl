@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * ACM 输入模板（多数之和）
- * @author ${mainTemplate.author}
+ * @author ${mainTemplate.mainTemplate.author}
  */
 public class MainTemplate {
     public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class MainTemplate {
                 sum += num;
             }
 
-            System.out.println("${mainTemplate.outputText}: " + sum);
+            System.out.println("${mainTemplate.mainTemplate.outputText}: " + sum);
 <#if mainTemplate.loop>
         }
 </#if>

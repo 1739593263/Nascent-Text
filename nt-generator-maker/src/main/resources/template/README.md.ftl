@@ -16,12 +16,25 @@ generator <Commend> <Option> <Parameters>
 
 Example:
 ```bash
-generator generate<#list mainTemplate.modelConfig.models as modelInfo> -${modelInfo.abbr}</#list>
+generator generate<#list mainTemplate.modelConfig.models as modelInfo><#if modelInfo.groupKey??><#list modelInfo.models as subModelInfo>-${subModelInfo.abbr}</#list><#else>-${modelInfo.abbr}</#if></#list>
 ```
 
 ## Parameters
 <#list mainTemplate.modelConfig.models as modelInfo>
+<#if modelInfo.groupKey??>
+<#list modelInfo.models as subModelInfo>
+${modelInfo?index+subModelInfo?index+1} )  ${subModelInfo.fieldName}
 
+   Type: ${subModelInfo.type}
+
+   Description: ${subModelInfo.description}
+
+   Default: ${subModelInfo.defaultValue?c}
+
+   Abbreviate: ${subModelInfo.abbr}
+
+</#list>
+<#else>
 ${modelInfo?index+1} )  ${modelInfo.fieldName}
 
    Type: ${modelInfo.type}
@@ -31,4 +44,6 @@ ${modelInfo?index+1} )  ${modelInfo.fieldName}
    Default: ${modelInfo.defaultValue?c}
 
    Abbreviate: ${modelInfo.abbr}
+
+</#if>
 </#list>

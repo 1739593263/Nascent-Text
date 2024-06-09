@@ -23,11 +23,19 @@ public class MainGenerator {
     public static void doGenerate(DataModel model) throws Exception {
         String inputRootPath = "${mainTemplate.fileConfig.inputRootPath}";
         String outputRootPath = "${mainTemplate.fileConfig.outputRootPath}";
+
         String inputPath;
         String outputPath;
 
 <#list mainTemplate.modelConfig.models as modelInfo>
+        <#-- Group Model -->
+        <#if modelInfo.groupKey??>
+        <#list modelInfo.models as subModelInfo>
+        ${subModelInfo.type} ${subModelInfo.fieldName} = model.${modelInfo.groupKey}.${subModelInfo.fieldName};
+        </#list>
+        <#else>
         ${modelInfo.type} ${modelInfo.fieldName} = model.${modelInfo.fieldName};
+        </#if>
 </#list>
 
 <#list mainTemplate.fileConfig.files as fileInfo>
